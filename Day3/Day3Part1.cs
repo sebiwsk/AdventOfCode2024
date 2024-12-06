@@ -13,7 +13,7 @@ namespace AdventOfCode2024.Day3
         {
             string filePath = @"..\..\..\Day3\input.txt";
             string convert = ConvertToString(filePath);
-            int answer = matches(convert);
+            int answer = Matches(convert);
             Console.WriteLine($"Answer {answer}");
         }
         private static string ConvertToString(string filePath)
@@ -29,7 +29,7 @@ namespace AdventOfCode2024.Day3
                 return null;
             }
         }
-        private static int matches(string convert)
+        private static int Matches(string convert)
         {
             string operationPattern = @"mul\(\d+,\d+\)";
             string patternNumber = @"\d+";

@@ -1,22 +1,21 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace AdventOfCode2024.Day2
 {
-    public class Day2Part1
+    public class Day2Part2
     {
         public static void Start()
         {
             string filePath = @"..\..\..\Day2\input.txt";
-            List<int> convert = ConvertToList(filePath);
+            List<int> convert = ConvertToArray(filePath);
             int answer = Reports(convert);
             Console.WriteLine("Answer: " + answer);
         }
-        private static List<int> ConvertToList(string filePath)
+        private static List<int> ConvertToArray(string filePath)
         {
             try
             {
@@ -48,23 +47,27 @@ namespace AdventOfCode2024.Day2
             int count = 0;
             bool isPossible = true;
             bool isPositiv = false;
+            int mitzählen = 0;
             foreach (var item in convert)
             {
                 if (item == -1)
                 {
+                Console.WriteLine("-----");
                     if (isPossible == true)
                     {
                         answer++;
                     }
                     count = 0;
                     isPossible = true;
+                    Console.WriteLine("So oft war falsch" + mitzählen);
+                    mitzählen = 0;
                 }
-                else if (isPossible)
+                else
                 {
                     int cache = buffer - item;
-
                     if (count > 0)
                     {
+                        Console.WriteLine(item);
                         if (count == 1)
                         {
                             isPositiv = cache > 0;
@@ -72,7 +75,9 @@ namespace AdventOfCode2024.Day2
 
                         if (cache == 0 || (cache > 0) != isPositiv || Math.Abs(cache) >= 4)
                         {
+                            Console.WriteLine("No going");
                             isPossible = false;
+                            mitzählen++;
                         }
                     }
                     buffer = item;

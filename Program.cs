@@ -16,6 +16,8 @@ namespace AdventOfCode2024
             Day1.Day1Part2.Start();
             Console.WriteLine("Day2 Part1");
             Day2.Day2Part1.Start();
+            Console.WriteLine("Day2 Part2");
+            Day2.Day2Part2.Start();
             Console.WriteLine("Day3 Part1");
             Day3.Day3Part1.Start();
             Console.WriteLine("Day3 Part2");

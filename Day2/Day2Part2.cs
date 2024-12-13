@@ -11,28 +11,16 @@ namespace AdventOfCode2024.Day2
         public static void Start()
         {
             string filePath = @"..\..\..\Day2\input.txt";
-            List<int> convert = ConvertToArray(filePath);
+            string[] convert = ConvertToString(filePath);
             int answer = Reports(convert);
             Console.WriteLine("Answer: " + answer);
         }
-        private static List<int> ConvertToArray(string filePath)
+        private static string[] ConvertToString(string filePath)
         {
             try
             {
                 string[] lines = File.ReadAllLines(filePath);
-                List<int> convert = new List<int>();
-
-                foreach (string line in lines)
-                {
-                    string[] zahlen = line.Split(' ', StringSplitOptions.RemoveEmptyEntries);
-
-                    foreach (string zahl in zahlen)
-                    {
-                        convert.Add(int.Parse(zahl));
-                    }
-                    convert.Add(-1);
-                }
-                return convert;
+                return lines;
             }
             catch (Exception ex)
             {
@@ -40,51 +28,63 @@ namespace AdventOfCode2024.Day2
                 return null;
             }
         }
-        private static int Reports(List<int> convert)
+        private static int Reports(string[] convert)
         {
             int answer = 0;
-            int buffer = 0;
-            int count = 0;
-            bool isPossible = true;
-            bool isPositiv = false;
-            int mitzählen = 0;
-            foreach (var item in convert)
+            for (int i = 0; i < convert.Length; i++)
             {
-                if (item == -1)
-                {
-                Console.WriteLine("-----");
-                    if (isPossible == true)
-                    {
-                        answer++;
-                    }
-                    count = 0;
-                    isPossible = true;
-                    Console.WriteLine("So oft war falsch" + mitzählen);
-                    mitzählen = 0;
-                }
-                else
-                {
-                    int cache = buffer - item;
-                    if (count > 0)
-                    {
-                        Console.WriteLine(item);
-                        if (count == 1)
-                        {
-                            isPositiv = cache > 0;
-                        }
-
-                        if (cache == 0 || (cache > 0) != isPositiv || Math.Abs(cache) >= 4)
-                        {
-                            Console.WriteLine("No going");
-                            isPossible = false;
-                            mitzählen++;
-                        }
-                    }
-                    buffer = item;
-                    count++;
-                }
+                List<int> list = TurnInList(convert[i]);
+                answer += IsValidSequence(list);
             }
             return answer;
+        }
+        private static List<int> TurnInList(string convert)
+        {
+            List<int> list = new List<int>();
+            string[] lines = convert.Split(" ");
+            for (int i = 0; i < lines.Length; i++)
+            {
+                list.Add(int.Parse(lines[i]));
+            }
+            return list;
+        }
+        private static int IsValidSequence(List<int> convert)
+        {
+            if (Logic(convert) == true)
+            {
+                return 1;
+            }
+            for (int i = 0; i < convert.Count(); i++)
+            {
+                List<int> tempList = convert.ToList();
+                tempList.RemoveAt(i);
+                if (Logic(tempList) == true)
+                {
+                    return 1;
+                }
+            }
+            return 0;
+        }
+        private static bool Logic(List<int> tempList)
+        {
+            bool isPositiv = (tempList[0] - tempList[1]) > 0;
+            bool isPossible = true;
+            for (int i = 0; i < tempList.Count; i++)
+            {
+                if (i + 1 < tempList.Count)
+                {
+                    int cache = tempList[i] - tempList[i + 1];
+                    if (cache == 0 || (cache > 0) != isPositiv || Math.Abs(cache) >= 4)
+                    {
+                        isPossible = false;
+                    }
+                }
+            }
+            if (isPossible)
+            {
+                return true;
+            }
+            return false;
         }
     }
 }

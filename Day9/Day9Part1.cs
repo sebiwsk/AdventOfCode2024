@@ -13,7 +13,7 @@ namespace AdventOfCode2024.Day9
         public static void Start()
         {
             string filePath = @"..\..\..\Day9\input.txt";
-            int[] convert = ConvertToString(filePath);
+            int[] convert = ConvertToInt(filePath);
             var convertToList = ConvertToList(convert);
             List<int> list = convertToList.Item1;
             int count = convertToList.Item2;
@@ -21,7 +21,7 @@ namespace AdventOfCode2024.Day9
             long answer = Checksum(list);
             Console.WriteLine("Answer: " + answer);
         }
-        private static int[] ConvertToString(string filePath)
+        private static int[] ConvertToInt(string filePath)
         {
             try
             {
